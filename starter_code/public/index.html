@@ -10,22 +10,33 @@
 </head>
 <body>
 <div class="container">
-	<h1>Broadway Diva Directory</h1>
-	<h3>Add a New Contact</h3>
+	<h1>Contacts</h1>
+<!-- 	<button id="add_contacts">Add a New Contact</button> -->
+		<h2>Add a New Contact</h2>
 <form>
 	<p><input type="text" name="name" id="name" placeholder="Name" required></p>
 	<p><input type="text" age="age" id="age" placeholder="Age" required></p>
-	<p><input type="address" name="address" id="address" placeholder="Address" required></p>
-	<p><input type="address" name="address" id="address" placeholder="Address" required></p>
-	<p><input type="text" name="picture" id="picture" placeholder="Image URL" required></p>
-	<p><select name="category">
+	<p><input type="address" name="address" id="address" placeholder="Address"></p>
+	<p><input type="text" name="phone_number" id="phone_number" placeholder="Phone"></p>
+	<p><input type="text" name="picture" id="picture" placeholder="Image URL"></p>
+	<p><select name="category_id" id="category_id" required>
 	<option selected="selected">Select category</option>
-	<option value="actors">Actors</option>
-	<option value="singers">Singers</option>
-	<option value="dancers">Dancers</option>
 	</select></p>
 	<p><button id="add">Add</button></p>
+</form>
 
+<button id="contacts">See All Contacts</button>
+	<!-- <div id="show_hide"> -->
+	<h2 class="all_header"></h2>
+	<ul class="all_contacts">
+		</ul>
+<!-- 	</div>
+ -->
+<p><select name="contact_id" id="contact_id">
+	<option selected="selected">Select contact</option>
+	</select></p>		
+
+<button id="categories">See All Categories</button>
 <div class="row">
 	<div class="column_headers">
 			<section class="col-md-3 col-md-offset-1">
