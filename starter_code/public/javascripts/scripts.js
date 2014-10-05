@@ -70,6 +70,7 @@ $.ajax({
 		
 		var addRandomPhotoButton = $('#random_image');
 		addRandomPhotoButton.on('click', function(event) {
+			event.preventDefault();
 		picture.val(image);
 	});
 });
@@ -278,14 +279,14 @@ function viewContact() {
 		var category = $('#category').val();
 		var category_id = $('#category_id').val();
 		var id = $(this).parent().attr("id");
-		var li = $('.detail_view');
+		var div = $('.detail_view');
 
 	$.ajax({
 		url:'/contacts/'+id,
 		type: 'GET'
 	}).done(function(response){
 		console.log(response);
-		li.append(name + age + address);
+		div.append("testing 123");
 	})
 	});
 };
