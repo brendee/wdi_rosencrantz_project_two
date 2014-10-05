@@ -2,6 +2,10 @@
 	text-transform: uppercase;
 }
 
+ul {
+	text-transform: none;
+}
+
 img {
 	width: 100px;
 	border-radius: 10px;
