@@ -8,7 +8,6 @@
 
 ul {
 	text-transform: none;
-	cursor: pointer;
 }
 
 img {
@@ -24,4 +23,8 @@ select {
 a {
 	text-decoration: none;
 	color: black;
+}
+
+section {
+	clear: all;
 }

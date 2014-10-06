@@ -136,66 +136,13 @@ function allContacts() {
 			var h2 = $('.all_headers');
 			h2.append("All Contacts")
 			for (i=0; i < contacts.length; i++) {
-			ul.append("<li id='" + contacts[i]["id"] + "'>" + contacts[i]["name"] + "<br>" + "<button class='view'>View Contact</button>" + " " + "<button class='delete'>Delete</button>" + " " + "<button class='edit'>Edit</button>" + "</li>");
+			ul.append("<li id='" + contacts[i]["id"] + "'>" + contacts[i]["name"] + "<br>" + "<button class='view'>View Contact</button>" + " " + "<button class='delete'>Delete</button>" + "</li>");
 			}
 		
-			var editButton = $('button.edit');
-			editButton.on('click', function(){
-			$(this).parent().append("<p><input id='newName' placeholder='Update name'></p><p><input id='newAge' placeholder='Update age'></p><p><input id='newAddress' placeholder='Update address'></p><p><input id='newPhoneNumber' placeholder='Update phone number'></p><p><input id='newPicture' placeholder='New image'></p><p><select id='" + contacts["category_id"] + "'><option selected='selected'>Select category</option>" + category_id + "</select></p><p><button class='save'>Save Changes</button></p>");
-			var id = $(this).parent().attr("id");
-			console.log("check check");
-			saveChangesListener();	
-
-			// var category = data["category_id"];
-			// for (i=0; i < category.length; i++) {
-			// var dropdown = $('#newCategoryId');
-			// dropdown.append('<option value="' + category[i].id + '">' + category[i]["name"] + '</option>'); 
-			// }
-			});
-
 		viewContact();
 		deleteButtonListener();
 		});
 };
-
-function saveChangesListener() {
-	var saveChanges = $('button.save');
-		saveChanges.on("click", function() {
-			var id = $(this).parent().attr("id");
-			console.log(id);
-			
-			var newNameInput = $("input#newName");
-			var newAgeInput = $("input#newAge");
-			var newAddressInput = $("input#newAddress");
-			var newPhoneNumberInput = $("input#newPhoneNumber");
-			var newPictureInput = $("input#newPicture");
-			// var newCategoryID = $("input#newCategoryId");
-			
-			var newName = newNameInput.val();
-			var newAge = newAgeInput.val();
-			var newAddress = newAddressInput.val();
-			var newPhoneNumber = newPhoneNumberInput.val();
-			var newPicture = newPictureInput.val();
-			// var newCategoryId = newCategoryId.val();
-
-// 			editContact(newName, newAge, id, newAddress, newPicture, newPhoneNumber);
-
-// 	});
-// };
-
-// function editContact(name, age, id, address, picture, phone_number) {
-	$.ajax({
-		url:'/contacts/'+id,
-		type: 'PUT',
-		data: {"name": name, "age": age, "address": address, "picture": picture, "phone_number": phone_number, "category_id": category_id, "id": id }	
-	}).done(function(response){
-		console.log(response);
-		var data = response;
-		var li = $("#"+data.id);
-		li.html("Name: " + data.name + " " + "Age: " + data.age + "</br><button class='edit'>Edit</button>");
-		});
-	});
-}
 
 function deleteButtonListener() {
 	var deleteButton = $('.delete');
@@ -219,9 +166,9 @@ function deleteButtonListener() {
 		url:'/contacts/'+id,
 		type: 'DELETE',
 		data: {"name": name, "age": age, "address": address, "picture": picture, "phone_number": phone_number, "category_id": category_id, "id": id }	
-	}).done(function(response){
+		}).done(function(response){
 		console.log(response);
-	})
+		})
 	});
 };
 
@@ -236,12 +183,94 @@ function viewContact() {
 	$.ajax({
 		url:'/contacts/'+id,
 		type: 'GET'
-	}).done(function(response){
+		}).done(function(response){
 		console.log(response);
-		ul.append("<h2>Contact Details</h2>" + "<img src='" + response["picture"] + "'>" + "Name: " + response["name"] + "<br>" + "Age: " + response["age"] + "<br>" + "Address: " + response["address"] + "<br>" + "Phone: " + response["phone_number"] + "<br>" + "<a href='/index.html'><span class='glyphicon glyphicon-refresh'></span></a>");
+		ul.append("<h2>Contact Details</h2>" + "<img src='" + response["picture"] + "'>" + "Name: " + response["name"] + "<br>" + "Age: " + response["age"] + "<br>" + "Address: " + response["address"] + "<br>" + "Phone: " + response["phone_number"] + "<input id='id' type='hidden' value='" + id + "'>" + "<p><a href='/index.html'><span class='glyphicon glyphicon-refresh'></span></a></p>" + "<p><button class='edit'>Edit</button><br><br></p>");
+			editButtonListener();
+		})
 	})
+}; 
+
+
+function editButtonListener() {
+	var editButton = $('button.edit');
+			editButton.on('click', function(){
+			// var id = $(this).parent().attr("id");
+			// console.log(id);
+			$(this).parent().append("<p><input id='newName' value='" + name + "'" + "placeholder='Update name'></p><p><input id='newAge' placeholder='Update age'></p><p><input id='newAddress' placeholder='Update address'></p><p><input id='newPhoneNumber' placeholder='Update phone number'></p><p><input id='newPicture' placeholder='Add new image URL'></p><p><button id='new_random_image'>Assign Random Photo</button></p><p><select id='new_category_id'><option selected='selected'>Select category</option></select></p><p><button class='save'>Save Changes</button></p>");
+
+				$.ajax({
+	url:'/categories',
+	type: 'GET'
+}).done(function(data){
+	// console.log(data)
+var category = data;
+for (i=0; i < category.length; i++) {
+	var dropdown = $('select#new_category_id');
+	dropdown.append('<option value="' + category[i].id + '">' + category[i]["name"] + '</option>'); 
+	}
+})
+
+$.ajax({
+  url: 'http://api.randomuser.me/?gender=female',
+  dataType: 'json'
+}).done(function(data){
+    // console.log(data);
+    var image = data["results"][0]["user"]["picture"]["large"];
+    	// console.log(image);
+    	var picture = $('#newPicture');
+		
+		var addRandomPhotoButton = $('#new_random_image');
+		addRandomPhotoButton.on('click', function(event) {
+			event.preventDefault();
+			picture.val(image);
+	});
+});
+
+			saveChangesListener();	
+			});
+}
+
+function saveChangesListener() {
+	var saveChanges = $('button.save');
+		saveChanges.on("click", function() {
+			
+			var newNameInput = $("input#newName");
+			var newAgeInput = $("input#newAge");
+			var newAddressInput = $("input#newAddress");
+			var newPhoneNumberInput = $("input#newPhoneNumber");
+			var newPictureInput = $("input#newPicture");
+			var newCategoryIdInput = $('select#new_category_id');
+			var id = $("input#id");
+
+			var newName = newNameInput.val();
+			var newAge = newAgeInput.val();
+			var newAddress = newAddressInput.val();
+			var newPhoneNumber = newPhoneNumberInput.val();
+			var newPicture = newPictureInput.val();
+			var newCategoryId = newCategoryIdInput.val();
+			var newId = id.val();
+
+			editContact(newName, newAge, newAddress, newPhoneNumber, newPicture, newCategoryId, newId);
+
 	});
 };
+
+function editContact(name, age, address, phone_number, picture, category_id, id) {
+	$.ajax({
+		url:'/contacts/'+id,
+		type: 'PUT',
+			data: {"name": name, "age": age, "address": address, "phone_number": phone_number, "picture": picture, "category_id": category_id, "id": id }
+	}).done(function(response){
+		console.log(response);
+		var contacts = response;
+		// var li = contacts[i]["id"];
+				// $('li').html("<li>" + 'Name: '+ newName + "<br>" + 'Age: ' +newAge + 'Phone Number: ' +phone_number );
+		});
+				// window.location.reload();
+
+	// });
+}
 
 // Closing tag
 });

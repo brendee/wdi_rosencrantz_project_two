@@ -55,7 +55,6 @@ end
 
 put("/contacts/:id") do
   contact = Contact.find(params[:id])
-
   contact.update(contact_params(params))
 
   contact.to_json
