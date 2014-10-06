@@ -15,30 +15,32 @@
 <!-- 	<button id="add_contacts">Add a New Contact</button> -->
 		<h2>Add a New Contact</h2>
 <form>
+	<div class="required">
 	<p><input type="text" name="name" id="name" placeholder="Name"></p>
 	<p><input type="text" age="age" id="age" placeholder="Age"></p>
 	<p><input type="address" name="address" id="address" placeholder="Address"></p>
 	<p><input type="text" name="phone_number" id="phone_number" placeholder="Phone"></p>
-	<p><input type="text" name="picture" id="picture" placeholder="Image URL">
-	<button id="random_image">Random Photo</button></p>
+	<p><input type="text" name="picture" id="picture" placeholder="Image URL"></p>
+	<button id="random_image">Assign Random Photo</button></p>
 	<p><select name="category_id" id="category_id">
 	<option selected="selected">Select category</option>
 	</select></p>
 	<p><button id="add">Add Contact</button></p>
 </form>
+</div>
 
 <button id="contacts">See All Contacts</button>
-	<!-- <div id="show_hide"> -->
 	<h2 class="all_headers"></h2>
-	<ul class="all_contacts">
-<p class='details'></p>
+	<div class="row">
+			<section class="col-md-6 col">
+				<ul class="all_contacts">
 		</ul>
-<!-- 	</div>
- -->
-<!-- <p><select name="contact_id" id="contact_id">
-	<option selected="selected">Select contact</option>
-	</select></p>		 -->
-
+			</section>
+			<section class="col-md-6">
+				<ul class='details'></ul>
+			</section>
+		</div>
+	
 <button id="categories">View Contacts by Category</button>
 <div class="row">
 	<div class="column_headers">

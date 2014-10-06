@@ -2,6 +2,12 @@ $(function(){
 
 console.log("Connection made");
 
+// var refresh = $('span');
+// refresh.on('click', function(event) {
+// 	console.log(event);
+//   location.reload();
+// });
+
 var categories = [{"id":4,"name":"actors"},{"id":5,"name":"singers"},{"id":6,"name":"dancers"}];
 
 	var seeCategories = $('#categories');
@@ -60,7 +66,7 @@ for (i=0; i < category.length; i++) {
 // Begin Random API AJAX call
 // function getRandomImage() {
 $.ajax({
-  url: 'http://api.randomuser.me/',
+  url: 'http://api.randomuser.me/?gender=female',
   dataType: 'json'
 }).done(function(data){
     // console.log(data);
@@ -92,7 +98,7 @@ var addContact = $('#add');
 		console.log("Add button has been clicked");
 		console.log(category_id);
 
-		// checkForm();
+		checkForm();
 
 		$.ajax({
 			url:'/contacts',
@@ -102,7 +108,6 @@ var addContact = $('#add');
 			console.log(data);
 		});
 	});
-
 
 function checkForm() {
   var fields = $(".required")
@@ -137,6 +142,7 @@ function allContacts() {
 			var editButton = $('button.edit');
 			editButton.on('click', function(){
 			$(this).parent().append("<p><input id='newName' placeholder='Update name'></p><p><input id='newAge' placeholder='Update age'></p><p><input id='newAddress' placeholder='Update address'></p><p><input id='newPhoneNumber' placeholder='Update phone number'></p><p><input id='newPicture' placeholder='New image'></p><p><select id='" + contacts["category_id"] + "'><option selected='selected'>Select category</option>" + category_id + "</select></p><p><button class='save'>Save Changes</button></p>");
+			var id = $(this).parent().attr("id");
 			console.log("check check");
 			saveChangesListener();	
 
@@ -152,20 +158,11 @@ function allContacts() {
 		});
 };
 
-// function editButtonListener() {
-// 	var editButton = $('button.edit');
-// 		editButton.on('click', function(){
-// 			$(this).parent().append("<p><input id='newName' placeholder='Update name'></p><p><input id='newAge' placeholder='Update age'></p><p><input id='newAddress' placeholder='Update address'></p><p><input id='newPhoneNumber' placeholder='Update phone number'></p><p><input id='newPicture' placeholder='New image'></p><p><select id='newCategoryId'><option selected='selected'>Select category</option></select></p><p><button class='save'>Save Changes</button></p>");
-// 			console.log("check check");
-// 			saveChangesListener();	
-// 		});
-// };
-
-
 function saveChangesListener() {
 	var saveChanges = $('button.save');
 		saveChanges.on("click", function() {
 			var id = $(this).parent().attr("id");
+			console.log(id);
 			
 			var newNameInput = $("input#newName");
 			var newAgeInput = $("input#newAge");
@@ -233,22 +230,15 @@ function viewContact() {
 	var viewContact = $('button.view'); 
 	viewContact.on("click", function() {
 		console.log('View button working');
-		// var name = $('#name').val();
-		// var age = $('#age').val();
-		// var address = $('#address').val();
-		// var picture = $('#picture').val();
-		// var phone_number = $('#phone_number').val();
-		// var category = $('#category').val();
-		// var category_id = $('#category_id').val();
 		var id = $(this).parent().attr("id");
-		var p = $('.details');
+		var ul = $('.details');
 
 	$.ajax({
 		url:'/contacts/'+id,
 		type: 'GET'
 	}).done(function(response){
 		console.log(response);
-		p.append(response["name"] + "<br>" + response["age"] + "<br>" + response["address"] + "<br>" + response["phone_number"]  + "<br>" + "<img src='" + response["picture"] + "'>");
+		ul.append("<h2>Contact Details</h2>" + "<img src='" + response["picture"] + "'>" + "Name: " + response["name"] + "<br>" + "Age: " + response["age"] + "<br>" + "Address: " + response["address"] + "<br>" + "Phone: " + response["phone_number"] + "<br>" + "<a href='/index.html'><span class='glyphicon glyphicon-refresh'></span></a>");
 	})
 	});
 };

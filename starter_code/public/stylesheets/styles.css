@@ -1,16 +1,27 @@
-.column_headers {
-	text-transform: uppercase;
+.all_headers {
+	font-size: 30px;
 }
+
+/*.column_headers {
+	text-transform: uppercase;
+}*/
 
 ul {
 	text-transform: none;
+	cursor: pointer;
 }
 
 img {
-	width: 100px;
+	width: 200px;
 	border-radius: 10px;
+	float: right;
 }
 
 select {
 	text-transform: capitalize;
+}
+
+a {
+	text-decoration: none;
+	color: black;
 }
