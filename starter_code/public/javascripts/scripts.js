@@ -7,6 +7,7 @@ console.log("Connection made");
 // 	console.log(event);
 //   location.reload();
 // });
+searchContactsListener();
 
 var categories = [{"id":4,"name":"actors"},{"id":5,"name":"singers"},{"id":6,"name":"dancers"}];
 
@@ -133,8 +134,8 @@ function allContacts() {
 			var contacts = data;
 			console.log(data);
 			var ul = $('.all_contacts');
-			var h2 = $('.all_headers');
-			h2.append("All Contacts")
+			// var h2 = $('.all_headers');
+			// h2.append("All Contacts")
 			for (i=0; i < contacts.length; i++) {
 			ul.append("<li id='" + contacts[i]["id"] + "'>" + contacts[i]["name"] + "<br>" + "<button class='view'>View Contact</button>" + " " + "<button class='delete'>Delete</button>" + "</li>");
 			}
@@ -185,7 +186,7 @@ function viewContact() {
 		type: 'GET'
 		}).done(function(response){
 		console.log(response);
-		ul.append("<h2>Contact Details</h2>" + "<img src='" + response["picture"] + "'>" + "Name: " + response["name"] + "<br>" + "Age: " + response["age"] + "<br>" + "Address: " + response["address"] + "<br>" + "Phone: " + response["phone_number"] + "<input id='id' type='hidden' value='" + id + "'>" + "<p><a href='/index.html'><span class='glyphicon glyphicon-refresh'></span></a></p>" + "<p><button class='edit'>Edit</button><br><br></p>");
+		ul.append("<h2>" + response["name"] + "</h2>" + "<img src='" + response["picture"] + "'>" + "Age: " + response["age"] + "<br>" + "Address: " + response["address"] + "<br>" + "Phone: " + response["phone_number"] + "<input id='id' type='hidden' value='" + id + "'>" + "<p><a href='/index.html'><span class='glyphicon glyphicon-refresh'></span></a></p>" + "<p><button class='edit'>Edit</button><br><br></p>");
 			editButtonListener();
 		})
 	})
@@ -193,6 +194,7 @@ function viewContact() {
 
 
 function editButtonListener() {
+
 	var editButton = $('button.edit');
 			editButton.on('click', function(){
 			// var id = $(this).parent().attr("id");
@@ -261,16 +263,44 @@ function editContact(name, age, address, phone_number, picture, category_id, id)
 		url:'/contacts/'+id,
 		type: 'PUT',
 			data: {"name": name, "age": age, "address": address, "phone_number": phone_number, "picture": picture, "category_id": category_id, "id": id }
-	}).done(function(response){
-		console.log(response);
-		var contacts = response;
-		// var li = contacts[i]["id"];
+	}).done(function(data){
+		console.log(data);
+		var contacts = data;
+		var li = $("#"+data.id);
+		console.log(li);
+				li.html("Name: " + data.name + " " + "Age: " + data.age + "</br><button class='edit'>Edit</button>");
+				// var li = contacts[i]["id"];
 				// $('li').html("<li>" + 'Name: '+ newName + "<br>" + 'Age: ' +newAge + 'Phone Number: ' +phone_number );
 		});
-				// window.location.reload();
+				window.location.reload();
 
 	// });
 }
+
+function searchContactsListener() {
+	var searchButton = $('button#search');
+	searchButton.on("click", function(event) {
+		event.preventDefault();
+		console.log("Search button works");
+
+		var searchTerm = $('input#search').val();
+		var resultsArray = [];
+		var results = $('div#results');
+
+		$.get('/contacts', function(contacts) {
+			_.each(contacts, function(contact) {
+				if(contact["name"] == searchTerm){
+					var contacts = "<img src='" + contact["picture"] + "'>" + "Name: " + contact["name"] + "<br>" + "Age: " + contact["age"] + "<br>" + "Address: " + contact["address"] + "<br>" + "Phone: " + contact["phone_number"]
+					resultsArray.push(contacts)
+					console.log(resultsArray);
+						}
+					});
+				}).done(function(){
+
+				results.append("<h3>Results</h3>" + resultsArray[0]);
+			});
+		});
+};
 
 // Closing tag
 });
