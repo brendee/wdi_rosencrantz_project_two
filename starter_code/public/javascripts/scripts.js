@@ -32,7 +32,7 @@ function contactsInCategory(category) {
 	}).done(function(data){
 		
 		var contacts = data["contacts"];
-		console.log(contacts);
+		// console.log(contacts);
 		var ul = $("#" + category);
 		
 		for (i = 0; i < contacts.length; i++) {
@@ -46,7 +46,7 @@ $.ajax({
 	url:'/categories',
 	type: 'GET'
 }).done(function(data){
-	console.log(data)
+	// console.log(data)
 var category = data;
 for (i=0; i < category.length; i++) {
 	var dropdown = $('select');
@@ -63,26 +63,20 @@ $.ajax({
   url: 'http://api.randomuser.me/',
   dataType: 'json'
 }).done(function(data){
-    console.log(data);
-    var image = data["results"][0]["user"]["picture"]["thumbnail"];
-    	console.log(image);
+    // console.log(data);
+    var image = data["results"][0]["user"]["picture"]["large"];
+    	// console.log(image);
     	var picture = $('#picture');
 		
 		var addRandomPhotoButton = $('#random_image');
 		addRandomPhotoButton.on('click', function(event) {
 			event.preventDefault();
-		picture.val(image);
+			picture.val(image);
 	});
 });
 // End RandomAPI AJAX call
 // };
 // End RandomAPI function
-
-// var picture = $('#picture');
-// var addRandomPhoto = $('#random_image');
-// 	addRandomPhoto.on('click', function(event) {
-// 		picture.val("'"+image+"'");
-// 	});
 
 var addContact = $('#add');
 		addContact.on('click', function(event) {
@@ -135,7 +129,6 @@ function allContacts() {
 			console.log(data);
 			var ul = $('.all_contacts');
 			var h2 = $('.all_headers');
-			// var li = $('#data.id');
 			h2.append("All Contacts")
 			for (i=0; i < contacts.length; i++) {
 			ul.append("<li id='" + contacts[i]["id"] + "'>" + contacts[i]["name"] + "<br>" + "<button class='view'>View Contact</button>" + " " + "<button class='delete'>Delete</button>" + " " + "<button class='edit'>Edit</button>" + "</li>");
@@ -158,37 +151,6 @@ function allContacts() {
 		deleteButtonListener();
 		});
 };
-
-// function viewContact(contact) {
-// 	var viewContact = $('button.view');
-// 	var id = $(this).parent().attr("id");
-// 	console.log(id);
-// 	viewContact.on("click", function() {
-// 			console.log("check check");
-	
-
-// 	$.ajax({
-// 		url:'/contacts/' + id,
-// 		type: 'GET'
-// 	}).done(function(data){
-// 		console.log(data);
-// 		// var ul = $("." + id);
-		
-// 		// for (i = 0; i < contacts.length; i++) {
-// 		// 	var contactName = contacts[i]["name"];
-// 		// 	ul.append("<li>" + contactName + "</li>");
-// 		// }
-// 	})
-// })
-// function viewContact() {
-// 		var viewContact = $('button.view');
-		
-// 	viewContact.on("click", function() {
-//  			$(this).parent().append(name + age);
-// // 			console.log("check check");
-// 	})
-// }
-
 
 // function editButtonListener() {
 // 	var editButton = $('button.edit');
@@ -271,22 +233,22 @@ function viewContact() {
 	var viewContact = $('button.view'); 
 	viewContact.on("click", function() {
 		console.log('View button working');
-		var name = $('#name').val();
-		var age = $('#age').val();
-		var address = $('#address').val();
-		var picture = $('#picture').val();
-		var phone_number = $('#phone_number').val();
-		var category = $('#category').val();
-		var category_id = $('#category_id').val();
+		// var name = $('#name').val();
+		// var age = $('#age').val();
+		// var address = $('#address').val();
+		// var picture = $('#picture').val();
+		// var phone_number = $('#phone_number').val();
+		// var category = $('#category').val();
+		// var category_id = $('#category_id').val();
 		var id = $(this).parent().attr("id");
-		var div = $('.detail_view');
+		var p = $('.details');
 
 	$.ajax({
 		url:'/contacts/'+id,
 		type: 'GET'
 	}).done(function(response){
 		console.log(response);
-		div.append("testing 123");
+		p.append(response["name"] + "<br>" + response["age"] + "<br>" + response["address"] + "<br>" + response["phone_number"]  + "<br>" + "<img src='" + response["picture"] + "'>");
 	})
 	});
 };
