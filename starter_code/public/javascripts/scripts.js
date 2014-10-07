@@ -134,7 +134,7 @@ function allContacts() {
 			for (i=0; i < contacts.length; i++) {
 			ul.append("<li id='" + contacts[i]["id"] + "'>" + contacts[i]["name"] + "<br>" + "<button class='view'>View Contact</button>" + " " + "<button class='delete'>Delete</button>" + "</li>");
 			}
-		
+
 		viewContact();
 		deleteButtonListener();
 		});
