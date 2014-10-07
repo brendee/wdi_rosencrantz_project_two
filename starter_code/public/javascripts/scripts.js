@@ -2,11 +2,6 @@ $(function(){
 
 console.log("Connection made");
 
-// var refresh = $('span');
-// refresh.on('click', function(event) {
-// 	console.log(event);
-//   location.reload();
-// });
 searchContactsListener();
 
 var categories = [{"id":4,"name":"actors"},{"id":5,"name":"singers"},{"id":6,"name":"dancers"}];
@@ -186,7 +181,7 @@ function viewContact() {
 		type: 'GET'
 		}).done(function(response){
 		console.log(response);
-		ul.append("<h2>" + response["name"] + "</h2>" + "<img src='" + response["picture"] + "'>" + "Age: " + response["age"] + "<br>" + "Address: " + response["address"] + "<br>" + "Phone: " + response["phone_number"] + "<input id='id' type='hidden' value='" + id + "'>" + "<p><a href='/index.html'><span class='glyphicon glyphicon-refresh'></span></a></p>" + "<p><button class='edit'>Edit</button><br><br></p>");
+		ul.append("<div id='details'><h2>" + response["name"] + "</h2>" + "<img src='" + response["picture"] + "'>" + "Age: " + response["age"] + "<br>" + "Address: " + response["address"] + "<br>" + "Phone: " + response["phone_number"] + "<input id='id' type='hidden' value='" + id + "'>" + "<p><a href='/index.html'><span class='glyphicon glyphicon-refresh'></span></a></p>" + "<p><button class='edit'>Edit</button><br><br></p></div>");
 			editButtonListener();
 		})
 	})
